@@ -9,16 +9,18 @@ Depenencies
 */
 
 
-window.Sockets = function(){
+window.Sockets = function(talk){
 	$(talk).trigger('loaded', 'sockets');
-	// on socket message 'clicked'
-	// if nextslide
-	$(talk).trigger('nextslide');
-	// else
-	$(talk).trigger('previousslide');	
+	var socket = io.connect('http://localhost:3000');
+	socket.on('forward', function (data) {
+	  $(talk).trigger('nextslide');
+  });
+  socket.on('backward', function (data) {
+	  $(talk).trigger('previousslide');
+  });
 };
 
-window.GamePad = function(){
+window.GamePad = function(talk){
 	$(talk).trigger('loaded', 'gamepad');
 	// need to use polling to check state
 	var checkGamepad = function(){
@@ -28,7 +30,7 @@ window.GamePad = function(){
 	$(talk).trigger('previousslide');
 };
 
-window.Input = function(){
+window.Input = function(talk){
 	$(talk).trigger('loaded', 'input');
 	
 	var nextOnTrue = function(clause){
@@ -59,7 +61,7 @@ window.Input = function(){
 	$(window).click(click);		
 };
 
-window.Slides = function(){
+window.Slides = function(talk){
 	var collection = [
 		{
 			html:'html',
@@ -79,10 +81,11 @@ window.Slides = function(){
 	var length = collection.length;
 
 	var update = function(){
-		var slide = collection[position];
+		//var slide = collection[position];
 		// load html in from url jquery load?
-		$('#display').load(slide.url);
-		$(talk).trigger('slideshowing', slide);
+		//$('#display').load(slide.url);
+		alert(position);
+		//$(talk).trigger('slideshowing', slide);
 	};
 
 	var previousSlide = function(event, message){
@@ -106,7 +109,7 @@ window.Slides = function(){
 	$(talk).bind('previousslide',previousSlide);	
 };
 
-window.History = function(){
+window.History = function(talk){
 	var showHistory = function(event, slide){
 		console.log(slide.url);
 	};
@@ -114,7 +117,7 @@ window.History = function(){
 	$(talk).bind('slideshowing',showHistory);	
 };
 
-window.Logger = function(){
+window.Logger = function(talk){
 	var logit = function(event, message){
 		console.log(message);
 	};
@@ -123,15 +126,15 @@ window.Logger = function(){
 
 window.Talk = function(){
 	// if dev
-	this.logger = new Logger();
+	//this.logger = new Logger(this);
 	// if socket.io and otehr includec
-	this.sockets = new Sockets();
+	this.sockets = new Sockets(this);
 	// if history api
-	this.history = new History();
+	//this.history = new History(this);
 	// if gamepad
-	this.gamePad = new GamePad();
-	this.input = new Input();
-	this.slides = new Slides();
+	//this.gamePad = new GamePad(this);
+	//this.input = new Input(this);
+	this.slides = new Slides(this);
 };
 
 $(function(){
