@@ -10,123 +10,125 @@ Depenencies
 
 
 window.Sockets = function(talk){
-	$(talk).trigger('loaded', 'sockets');
-	var socket = io.connect('http://localhost:3000');
-	socket.on('forward', function (data) {
-	  $(talk).trigger('forward');
+  $(talk).trigger('loaded', 'sockets');
+
+  var host = window.location.hostname;
+  var socket = io.connect('http://'+host+':3000');
+  socket.on('forward', function (data) {
+    $(talk).trigger('forward');
   });
   socket.on('backward', function (data) {
-	  $(talk).trigger('backward');
+    $(talk).trigger('backward');
   });
 };
 
 window.GamePad = function(talk){
-	$(talk).trigger('loaded', 'gamepad');
-	// need to use polling to check state
-	var checkGamepad = function(){
+  $(talk).trigger('loaded', 'gamepad');
+  // need to use polling to check state
+  var checkGamepad = function(){
 
-	};
-	$(talk).trigger('forward');
-	$(talk).trigger('backward');
+  };
+  $(talk).trigger('forward');
+  $(talk).trigger('backward');
 };
 
 window.Input = function(talk){
-	$(talk).trigger('loaded', 'input');
-	
-	var nextOnTrue = function(clause){
-		var action = 'forward';
-		if(clause){
-			action = 'backward';
-		}
-		$(talk).trigger(action);
-	};
+  $(talk).trigger('loaded', 'input');
+  
+  var nextOnTrue = function(clause){
+    var action = 'forward';
+    if(clause){
+      action = 'backward';
+    }
+    $(talk).trigger(action);
+  };
 
-	var click = function(event){
-		nextOnTrue(event.which === 3);
-	};
+  var click = function(event){
+    nextOnTrue(event.which === 3);
+  };
 
-	var keyPress = function(event) {
-		nextOnTrue(event.keyCode === 115);	
-	};
+  var keyPress = function(event) {
+    nextOnTrue(event.keyCode === 115);  
+  };
 
-	$(window).keypress(keyPress);
-	$(window).click(click);		
+  $(window).keypress(keyPress);
+  $(window).click(click);   
 };
 
 window.Slides = function(talk){
-	var collection = [];
-	$('nav a').each(function(){
+  var collection = [];
+  $('nav a').each(function(){
     collection.push({
-      html: "",
+      html: $(this).text(),
       url: $(this).attr('href')
     });
   });
-	var position = 0;
-	var length = collection.length;
-	var update = function(){
-	  console.log(position);
-		var slide = collection[position];
-		if(slide.html === ''){
-		  $.get(slide.url, function(data){
-		    slide.html = $(data).find('section').html();
+  var position = 0;
+  var length = collection.length;
+  var update = function(){
+    var slide = collection[position];
+    if(slide.html === ''){
+      $.get(slide.url, function(data){
+        slide.html = $(data).find('section').html();
         $('#display').html(slide.html);
         $(talk).trigger('slideshowing', slide);
-		  });
-		}else{
-		  $('#display').html(slide.html);
-		  $(talk).trigger('slideshowing', slide);
-		}
-	};
+      });
+    }else{
+      $('#display').html(slide.html);
+      $(talk).trigger('slideshowing', slide);
+    }
+  };
 
-	var backward = function(event, message){
-		if(position <= 0){
-			position = length + 1;
-		}
-		position -= 1;
-		update();
-	};
+  var backward = function(event, message){
+    if(position <= 0){
+      position = length ;
+    }
+    position -= 1;
+    update();
+  };
 
-	var forward = function(event, message){
-		if(position >= length -1){
-			position = -1;
-		}
-		position += 1;
-		update();
-	};
-	
-	$(talk).trigger('loaded', 'slides');
-	$(talk).bind('forward',forward);
-	$(talk).bind('backward',backward);	
+  var forward = function(event, message){
+    if(position >= length -1){
+      position = -1;
+    }
+    position += 1;
+    update();
+  };
+  
+  $(talk).trigger('loaded', 'slides');
+  $(talk).bind('forward',forward);
+  $(talk).bind('backward',backward);  
 };
 
-window.History = function(talk){
-	var showHistory = function(event, slide){
-		console.log(slide.url);
-	};
-	$(talk).trigger('loaded', 'history');
-	$(talk).bind('slideshowing',showHistory);	
-};
+// window.History = function(talk){
+//   var showHistory = function(event, slide){
+//     console.log(slide.url);
+//   };
+//   $(talk).trigger('loaded', 'history');
+//   $(talk).bind('slideshowing',showHistory); 
+// };
 
 window.Logger = function(talk){
-	var logit = function(event, message){
-		console.log(message);
-	};
-	$(talk).bind('loaded',logit);
+  var logit = function(event, message){
+    console.log(message);
+  };
+  $(talk).bind('loaded',logit);
+  $(talk).bind('slideshowing',logit);
 };
 
 window.Talk = function(){
-	// if dev
-	//this.logger = new Logger(this);
-	// if socket.io and otehr includec
-	//this.sockets = new Sockets(this);
-	// if history api
-	//this.history = new History(this);
-	// if gamepad
-	//this.gamePad = new GamePad(this);
-	this.input = new Input(this);
-	this.slides = new Slides(this);
+  // if dev
+  this.logger = new Logger(this);
+  // if socket.io and other included
+  this.sockets = new Sockets(this);
+  // if history api
+  //this.history = new History(this);
+  // if gamepad
+  //this.gamePad = new GamePad(this);
+  this.input = new Input(this);
+  this.slides = new Slides(this);
 };
 
 $(function(){
-	window.talk = new Talk();
+  window.talk = new Talk();
 });
