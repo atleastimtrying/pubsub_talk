@@ -39,6 +39,9 @@ nav a:hover{
   color:white;
   background:#ccc;
 }
+nav a.active:hover{
+  color:#333;
+}
 section{
   padding:60px;
   padding-right:188px;

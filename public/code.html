@@ -24,13 +24,26 @@
       <ul>
         <li>
           <pre>
-jQuery
+var events = {};
+
+$(events).bind('buttonClicked',function(message,time){
+  console.log(time);
+});
           </pre>
         </li>
         <li>
           <pre>
-Native dom
+$(events).bind('buttonClicked',function(message,time){
+  $.post('/saveCount', {time:time});
+});
           </pre>
+        </li>
+        <li>
+          <pre>
+$('a.count').click(function(){
+  var time = new Date().getTime();
+  $(events).trigger('buttonClicked', time);
+});</pre>
         </li>
       </ul>
     </section>
