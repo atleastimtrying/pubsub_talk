@@ -10,15 +10,17 @@ Depenencies
 
 
 window.Sockets = function(talk){
-  $(talk).trigger('loaded', 'sockets');
-
   var host = window.location.hostname;
-  var socket = io.connect('http://'+host+':3000');
-  socket.on('forward', function (data) {
-    $(talk).trigger('forward');
-  });
-  socket.on('backward', function (data) {
-    $(talk).trigger('backward');
+  $.getScript("http://" + host + ":3000/socket.io/socket.io.js", function() {
+    var socket = io.connect('http://'+host+':3000');
+    $(talk).trigger('loaded', 'sockets');
+
+    socket.on('forward', function (data) {
+      $(talk).trigger('forward');
+    });
+    socket.on('backward', function (data) {
+      $(talk).trigger('backward');
+    });
   });
 };
 
@@ -52,14 +54,14 @@ window.Input = function(talk){
   };
 
   $(window).keypress(keyPress);
-  $(window).click(click);   
+  $('section').click(click);   
 };
 
 window.Slides = function(talk){
   var collection = [];
   $('nav a').each(function(){
     collection.push({
-      html: $(this).text(),
+      html: '',
       url: $(this).attr('href')
     });
   });
@@ -70,11 +72,11 @@ window.Slides = function(talk){
     if(slide.html === ''){
       $.get(slide.url, function(data){
         slide.html = $(data).find('section').html();
-        $('#display').html(slide.html);
+        $('section').html(slide.html);
         $(talk).trigger('slideshowing', slide);
       });
     }else{
-      $('#display').html(slide.html);
+      $('section').html(slide.html);
       $(talk).trigger('slideshowing', slide);
     }
   };
@@ -100,13 +102,13 @@ window.Slides = function(talk){
   $(talk).bind('backward',backward);  
 };
 
-// window.History = function(talk){
-//   var showHistory = function(event, slide){
-//     console.log(slide.url);
-//   };
-//   $(talk).trigger('loaded', 'history');
-//   $(talk).bind('slideshowing',showHistory); 
-// };
+window.History = function(talk){
+  var showHistory = function(event, slide){
+    console.log(slide.url);
+  };
+  $(talk).trigger('loaded', 'history');
+  $(talk).bind('slideshowing',showHistory); 
+};
 
 window.Logger = function(talk){
   var logit = function(event, message){
@@ -117,14 +119,10 @@ window.Logger = function(talk){
 };
 
 window.Talk = function(){
-  // if dev
   this.logger = new Logger(this);
-  // if socket.io and other included
   this.sockets = new Sockets(this);
-  // if history api
-  //this.history = new History(this);
-  // if gamepad
-  //this.gamePad = new GamePad(this);
+  this.history = new History(this);
+  this.gamePad = new GamePad(this);
   this.input = new Input(this);
   this.slides = new Slides(this);
 };
