@@ -1,5 +1,5 @@
 window.Talk = function(){
-  this.logger = new Logger(this);
+  //this.logger = new Logger(this);
   this.sockets = new Sockets(this);
   if(window.history){
     this.history = new History(this);
