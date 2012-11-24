@@ -10,5 +10,5 @@ window.Input = function(talk){
   };
 
   $(window).keypress(keyPress);
-  $('section').click(click);   
+  $('article').click(click);   
 };

@@ -2,77 +2,96 @@
 	margin: 0;
 	padding:0;
   font-family:sans-serif;
+  color:#333;
+  cursor:url(/images/cursor.png), auto;
 }
 article{
 	position:absolute;
 	width:100%;
 	height:100%;
+  background:#efefef;
 }
 nav{
   position:fixed;
   top: 0;
   right:0;
-  width:100px;
+  width:128px;
   text-align:right;
   z-index:10;
   background: #ccc;
-  padding:10px;
-  padding-bottom:0;
+  padding-top:10px;
+  border-bottom-left-radius: 2px;
 }
 nav a{
   display:block;
   padding:10px;
-  border-radius:4px;
   margin-bottom:10px;
-  color:black;
+  font-weight:bold;
   -webkit-transition:background 1s ease-out;
   text-decoration:none;
 }
-
+nav a.active{
+  background:white;
+}
+nav a.active:hover,
 nav a:hover{
   color:white;
-  background:black;
-}
-nav a.active{
-  background:red;
+  background:#ccc;
 }
 section{
   padding:60px;
-  padding-right:100px;
+  padding-right:188px;
   position:absolute;
-  background:gray;
   width:auto;
 }
+section h1{
+  font-size:40px;
+  font-weight:lighter;
+  text-transform:uppercase;
+  margin-bottom:20px;text-shadow: 1px 1px 1px #666;
+  letter-spacing: -1px;
+  word-spacing: 1px;
+}
+section ul{
 
-#forward,
-#backward{
-	margin:-1px;
-	height:100%;
-	line-height:100%;
-	width:50%;
-	background:green;
-	display:inline-block;
-	text-decoration:none;
-	position:relative;
 }
-#backward{
-	background:red;
+section ul li{
+  list-style:none;
+  margin-bottom:20px;
+  font-size:24px;
+  border-left: 3px solid #ccc;
+  padding:10px;
+  padding-left: 20px;
 }
-#forward:before,
-#backward:before{
-	font-size:50px;
-	color:white;
-	font-weight:bold;
-	font-family:sans-serif;
-	position:absolute;
-	top:50%;
-	left:50%;
-	height:50px;
-	width:50px;
-	margin:-25px;
-	content:"\25B6";
-	text-shadow:4px 5px 5px black;
+section ul li:hover{
+  background:#ffd;
+  border-left: 3px solid #333;
 }
-#backward:before{
-	content:"\25C0";
+section pre{
+  background:white;
+  color:#333;
+  font-family:"Courier New", monotype;
+  padding:20px;
+  border-radius:2px;
+  border: 3px double #ccc;
+}
+section blockquote{
+  font-family:serif;
+  font-weight:lighter;
+  color:#333;
+  background:white;
+  padding:20px;
+}
+section cite{
+  font-family:serif;
+  font-weight:lighter;
+  font-size:16px;
+  font-style: italic;
+}
+
+
+section ul li:hover pre,
+section ul li:hover blockquote{
+  background:#ffb;
+  color:black;
 }

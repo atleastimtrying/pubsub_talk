@@ -17,6 +17,7 @@ window.Slides = function(talk){
       $(talk).trigger('populateslide', slide);
     }else{
       $('section').html(slide.html);
+      $('title').html($(slide.html).html());
     }
     $(talk).trigger('slideshowing', slide);
   };

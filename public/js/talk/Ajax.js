@@ -4,6 +4,7 @@ window.Ajax = function(talk){
     $.get(slide.url, function(data){
       slide.html = $(data).find('section').html();
       $('section').html(slide.html);
+      $('title').html($(slide.html).html());
     });
   };
 
