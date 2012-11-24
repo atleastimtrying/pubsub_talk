@@ -1,26 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Slide</title>
+  <title>Have I used PubSub before?</title>
    <link rel='stylesheet' href='/css/style.css'> 
 </head>
 <body>
   <nav>
-    <a href='/slide1.html'>slide 1</a>
-    <a href='/slide2.html' class='active'>slide 2</a>
-    <a href='/slide3.html'>slide 3</a>
-    <a href='/slide4.html'>slide 4</a>
-    <a href='/slide5.html'>slide 5</a>
-    <a href='/slide6.html'>slide 6</a>
-    <a href='/slide7.html'>slide 7</a>
-    <a href='/slide8.html'>slide 8</a>
-    <a href='/slide9.html'>slide 9</a>
-    <a href='/slide10.html'>slide 10</a>
+    <a href='/slide1.html'>Definition</a>
+    <a href='/slide2.html' class='active'>Users</a>
+    <a href='/slide3.html'>Subscribe</a>
+    <a href='/slide4.html'>Publish</a>
+    <a href='/slide5.html'>The Code</a>
+    <a href='/slide6.html'>Why?</a>
+    <a href='/slide7.html'>Disadvantages</a>
+    <a href='/slide8.html'>Libraries</a>
+    <a href='/slide9.html'>Use Cases</a>
+    <a href='/slide10.html'>Conclusion</a>
   </nav>
   <article>
     <section>
-      <h1>Slide 2 Title</h1>
-      <p>This is slide 2 with some content in it!</p>
+      <h1>Have I used PubSub before?</h1>
+      <ul>
+        <li>Probably!</li>
+        <li>Ever used jQuery?</li>
+        <li>
+          <pre>
+$('a').click(function(){
+  alert('hello');
+});
+          </pre>
+        </li>
+        <li>is actually
+          <pre>
+$('a').bind('click',function(){
+  alert('hello');
+});
+          </pre>
+        </li>
+        <li>What is Bind?</li>
+      </ul>
     </section>
   </article>
   <script src="/js/jquery.js"></script>
