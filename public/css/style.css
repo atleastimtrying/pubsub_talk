@@ -84,6 +84,7 @@ section blockquote{
   font-weight:lighter;
   color:#333;
   background:white;
+  font-style: italic;
   padding:20px;
 }
 section cite{
@@ -91,6 +92,7 @@ section cite{
   font-weight:lighter;
   font-size:16px;
   font-style: italic;
+  text-align:right;
 }
 
 

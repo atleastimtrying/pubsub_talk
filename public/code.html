@@ -26,23 +26,23 @@
           <pre>
 var events = {};
 
-$(events).bind('buttonClicked',function(message,time){
+$(events).bind('saveTime',function(message,time){
   console.log(time);
 });
           </pre>
         </li>
         <li>
           <pre>
-$(events).bind('buttonClicked',function(message,time){
-  $.post('/saveCount', {time:time});
+$(events).bind('saveTime',function(message,time){
+  $.post('/saveTime', {time:time});
 });
           </pre>
         </li>
         <li>
           <pre>
-$('a.count').click(function(){
+$('a.time').click(function(){
   var time = new Date().getTime();
-  $(events).trigger('buttonClicked', time);
+  $(events).trigger('saveTime', time);
 });</pre>
         </li>
       </ul>
